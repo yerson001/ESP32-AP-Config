@@ -1,0 +1,18 @@
+{
+    "name": "ESP32-AP-Config",
+    "version": "1.0.0",
+    "description": "ESP32 WiFi configuration via Access Point with Web Interface",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/tu-usuario/ESP32-AP-Config"
+    },
+    "authors": [
+        {
+            "name": "yerson001",
+            "email": "yhon.sanchez@ucsp.edupe"
+        }
+    ],
+    "license": "MIT",
+    "frameworks": "arduino",
+    "platforms": "espressif32"
+}
