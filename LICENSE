@@ -1,0 +1,15 @@
+# ESP32-AP-Config 🚀
+
+Librería para configurar WiFi mediante un **Access Point** en **ESP32**. Permite modificar el SSID y la contraseña de conexión a WiFi desde una interfaz web y guardar los cambios en memoria.
+
+## 📦 Instalación
+
+### 🔹 Arduino IDE
+1. Descarga este repositorio como `.zip`.
+2. Descomprime y coloca la carpeta en `Documents/Arduino/libraries/`.
+3. Reinicia Arduino IDE.
+
+### 🔹 PlatformIO
+Ejecuta este comando en la terminal:
+```sh
+pio pkg install --library "https://github.com/yerson001/ESP32-AP-Config"

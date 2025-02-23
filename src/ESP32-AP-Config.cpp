@@ -1,12 +1,14 @@
 #include "ESP32-AP-Config.hpp"
 
-ESP32APConfig::ESP32APConfig() : server(80) {}
+namespace ESP32AP {
 
-ESP32APConfig::~ESP32APConfig() {
+Config::Config() : server(80) {}
+
+Config::~Config() {
     preferences.end();
 }
 
-void ESP32APConfig::iniciar() {
+void Config::iniciar() {
     WiFi.softAP("ESP32_Config", "12345678");
 
     preferences.begin("wifi_config", false);
@@ -17,11 +19,11 @@ void ESP32APConfig::iniciar() {
     server.begin();
 }
 
-void ESP32APConfig::manejarCliente() {
+void Config::manejarCliente() {
     server.handleClient();
 }
 
-void ESP32APConfig::manejarPaginaConfiguracion() {
+void Config::manejarPaginaConfiguracion() {
     String pagina = "<html><body><h2>Configuración WiFi</h2>";
     pagina += "<form action='/guardar' method='POST'>";
     pagina += "SSID: <input type='text' name='ssid'><br>";
@@ -32,7 +34,7 @@ void ESP32APConfig::manejarPaginaConfiguracion() {
     server.send(200, "text/html", pagina);
 }
 
-void ESP32APConfig::manejarGuardado() {
+void Config::manejarGuardado() {
     if (server.hasArg("ssid") && server.hasArg("password")) {
         String newSSID = server.arg("ssid");
         String newPassword = server.arg("password");
@@ -42,12 +44,12 @@ void ESP32APConfig::manejarGuardado() {
     }
 }
 
-void ESP32APConfig::guardarConfiguracion(const char* newSSID, const char* newPassword) {
+void Config::guardarConfiguracion(const char* newSSID, const char* newPassword) {
     preferences.putString("ssid", newSSID);
     preferences.putString("password", newPassword);
 }
 
-void ESP32APConfig::cargarConfiguracion() {
+void Config::cargarConfiguracion() {
     String savedSSID = preferences.getString("ssid", "");
     String savedPassword = preferences.getString("password", "");
 
@@ -56,3 +58,5 @@ void ESP32APConfig::cargarConfiguracion() {
         strncpy(password, savedPassword.c_str(), sizeof(password));
     }
 }
+
+} // namespace ESP32AP
