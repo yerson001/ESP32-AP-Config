@@ -1,49 +1,154 @@
-# ESP32-AP-Config 🚀
+🚀 ESP32 Access Point & Configuración Persistente
 
-**ESP32-AP-Config** es una librería para configurar WiFi mediante un **Access Point** en ESP32. Permite modificar la configuración de la red WiFi y otros parámetros desde una interfaz web, guardando los cambios en la memoria del ESP32.
+Este proyecto permite configurar un ESP32 como Access Point (AP) con variables globales almacenadas en memoria, lo que facilita la modificación de valores sin necesidad de reprogramar el dispositivo.
 
-## 📦 Requisitos
+💚 Características
 
-Para utilizar esta librería necesitas:
-- Un ESP32 (cualquier modelo compatible con WiFi).
-- **Arduino IDE** (con la extensión ESP32) o **PlatformIO**.
-- Librerías adicionales:
-  - `WiFi.h` (incluida en ESP32 por defecto).
-  - `Preferences.h` (para guardar datos en la memoria no volátil del ESP32).
+✅ Access Point integrado → Puedes conectarte y configurar el dispositivo desde cualquier otro equipo.✅ Almacenamiento persistente → Los valores de configuración se guardan en memoria.✅ Gestión de variables globales → Puedes agregar nuevas variables y recuperarlas sin recompilar el código.
 
-## 📥 Instalación
+⚙️ Configuración del Access Point
 
-### 🔹 Arduino IDE
-
-1. Descarga el repositorio como `.zip` desde [GitHub](https://github.com/tu_usuario/ESP32-AP-Config).
-2. Abre Arduino IDE y ve a **Sketch > Incluir librería > Añadir biblioteca .ZIP**.
-3. Selecciona el archivo `.zip` y presiona **Aceptar**.
-
-### 🔹 PlatformIO
-
-Ejecuta en la terminal dentro de tu proyecto:
-```sh
-pio pkg install --library "https://github.com/tu_usuario/ESP32-AP-Config.git"
+Por defecto, el ESP32 crea una red WiFi con el siguiente nombre y contraseña:
+```cpp
+String storedSSID = apConfig.getVariable("ssid");          // Nombre del Access Point  
+String storedPassword = apConfig.getVariable("password");  // Contraseña del AP  
 ```
+📱 Nombre de la red: ESP_AP_CONFIG🔑 Contraseña: 12345678
 
-## 🚀 Uso
+Puedes cambiar estos valores al conectarte al AP y modificarlos desde la interfaz de configuración.
 
-Ejemplo básico de uso:
+🔧 Variables Globales y Almacenamiento Persistente
+
+El código permite gestionar variables globales que se guardan en memoria.
+
+🔹 Declaración de variables globales
+
+```cpp
+// Global variables  
+String api_url;   
+int timeout;     
+double threshold;  
+```
+🔹 Guardar valores por defecto si no existen
+```cpp
+// Store default values if they do not exist  
+apConfig.addVariable("api_url", "http://colecheck/attendance/api/");  
+apConfig.addVariable("timeout", "5000");  
+apConfig.addVariable("threshold", "3.14");  
+```
+🔹 Recuperar valores guardados y convertirlos si es necesario
+```cpp
+// Retrieve stored values and convert them if needed  
+api_url = apConfig.getVariable("api_url");  
+timeout = apConfig.getVariable("timeout").toInt();  
+threshold = apConfig.getVariable("threshold").toDouble();  
+Serial.println("Configuration initialized");  
+```
+📌 Nota: Las variables quedan almacenadas y no se pierden al reiniciar el ESP32.
+
+📶 Configuración de la Red WiFi
+
+El ESP32 también puede almacenar las credenciales de una red WiFi externa para conectarse automáticamente.
+
+🔹 Recuperar SSID y contraseña de la red WiFi guardada
+```cpp
+String storedwifiSSID = apConfig.getVariable("wifissid");  
+String storedwifiPassword = apConfig.getVariable("wifipassword");  
+```
+Esto permite que el ESP32 se conecte automáticamente a la red configurada sin necesidad de reprogramarlo.
+
+⚖️ Ejemplo Completo en C++
+
+Aquí tienes un ejemplo funcional donde además de las variables anteriores, se agrega la impresión de la hora actual en el ESP32:
 
 ```cpp
 #include <ESP32-AP-Config.hpp>
+#include <ctime>
 
-ESP32AP::Config apConfig;
+ESP32AP::Config apConfig;  
+
+// Global variables
+String api_url;   
+int timeout;     
+double threshold;
 
 void setup() {
     Serial.begin(115200);
-    apConfig.iniciar();
+    apConfig.setupAccesPoint();  
+
+    // Store default values if they do not exist
+    apConfig.addVariable("api_url", "http://colecheck/attendance/api/");
+    apConfig.addVariable("timeout", "5000");  
+    apConfig.addVariable("threshold", "3.14");
+    
+    // Retrieve stored values and convert them if needed
+    api_url = apConfig.getVariable("api_url");
+    timeout = apConfig.getVariable("timeout").toInt();  
+    threshold = apConfig.getVariable("threshold").toDouble();  
+    Serial.println("Configuration initialized");
 }
 
 void loop() {
-    apConfig.manejarCliente();
+    time_t now = time(nullptr);
+    struct tm *timeinfo = localtime(&now);
+    char timeString[9];
+    strftime(timeString, sizeof(timeString), "%H:%M:%S", timeinfo);
+
+    // Print stored configuration values with timestamp
+    Serial.print("[");
+    Serial.print(timeString);
+    Serial.print("] API_URL: ");
+    Serial.print(api_url);
+    Serial.print(" | Timeout: ");
+    Serial.print(timeout);
+    Serial.print(" | Threshold: ");
+    Serial.println(threshold);
+
+    delay(2000);
+    apConfig.handleClient();  
 }
 ```
+🔄 Agregar Más Variables
+
+No estás limitado a solo api_url, timeout y threshold. Puedes agregar más variables según sea necesario. Por ejemplo, para agregar una nueva variable llamada device_mode:
+```cpp
+// Agregar una nueva variable con un valor por defecto
+apConfig.addVariable("device_mode", "automatic");
+```
+Para recuperarla y utilizarla en el código:
+```cpp
+String device_mode = apConfig.getVariable("device_mode");
+Serial.print("Modo de operación: ");
+Serial.println(device_mode);
+```
+📈 Resumen del Procedimiento
+
+- ⬛️ El ESP32 se enciende y carga las configuraciones almacenadas.
+
+- ⬛️ Si no hay valores previos, usa los valores por defecto.
+
+- ⬛️ El dispositivo inicia un Access Point para permitir la configuración.
+
+- ⬛️ Desde la interfaz web, puedes cambiar valores como:
+
+🛠️ Nombre y contraseña del Access Point
+
+🌐 Dirección de la API (api_url)
+
+⏳ Tiempo de espera (timeout)
+
+🔄 Modo de operación (device_mode)
+
+⬛️ Los cambios se guardan en memoria y persisten tras reinicios.
+
+
+📚 Conclusión
+
+Este sistema facilita la configuración del ESP32 sin necesidad de reprogramación, permitiendo cambios dinámicos en la red y las variables globales.
+
+💌 Contacto
+
+Si tienes preguntas o mejoras, abre un issue en este repositorio. 🚀
 
 ## ⚙️ Funcionamiento
 
