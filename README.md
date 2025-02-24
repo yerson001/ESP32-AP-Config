@@ -162,6 +162,9 @@ Este sistema facilita la configuración del ESP32 sin necesidad de reprogramaci�
 5. Los cambios se guardan en la memoria del ESP32.
 6. El ESP32 se reinicia y se conecta a la red configurada.
 
+
+[Demo video](img/VN20250224_010916.mp4)
+
 ## 📜 Licencia
 
 Este proyecto está bajo la **licencia MIT**. Puedes usarlo y modificarlo libremente. 🎉
