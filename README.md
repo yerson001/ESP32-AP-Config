@@ -1,10 +1,17 @@
-🚀 ESP32 Access Point & Configuración Persistente
+# 🚀 ESP32 Access Point & Configuración Persistente
+
+![Logo ESP32](img/sistem.png)
 
 Este proyecto permite configurar un ESP32 como Access Point (AP) con variables globales almacenadas en memoria, lo que facilita la modificación de valores sin necesidad de reprogramar el dispositivo.
-
+![Logo ESP32](img/esp32.jpeg)
 💚 Características
 
-✅ Access Point integrado → Puedes conectarte y configurar el dispositivo desde cualquier otro equipo.✅ Almacenamiento persistente → Los valores de configuración se guardan en memoria.✅ Gestión de variables globales → Puedes agregar nuevas variables y recuperarlas sin recompilar el código.
+✅ Access Point integrado → Puedes conectarte y configurar el dispositivo desde cualquier otro equipo.
+✅ Almacenamiento persistente → Los valores de configuración se guardan en memoria.
+✅ Gestión de variables globales → Puedes agregar nuevas variables y recuperarlas sin recompilar el código.
+
+![Logo ESP32](img/Pitch%20proinv.jpg)
+
 
 ⚙️ Configuración del Access Point
 
@@ -145,10 +152,6 @@ Serial.println(device_mode);
 📚 Conclusión
 
 Este sistema facilita la configuración del ESP32 sin necesidad de reprogramación, permitiendo cambios dinámicos en la red y las variables globales.
-
-💌 Contacto
-
-Si tienes preguntas o mejoras, abre un issue en este repositorio. 🚀
 
 ## ⚙️ Funcionamiento
 
