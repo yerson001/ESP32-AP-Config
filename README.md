@@ -163,7 +163,7 @@ Este sistema facilita la configuración del ESP32 sin necesidad de reprogramaci�
 6. El ESP32 se reinicia y se conecta a la red configurada.
 
 
-[Demo video](img/VN20250224_010916.mp4)
+![Demo video](img/demo.gif)
 
 ## 📜 Licencia
 
