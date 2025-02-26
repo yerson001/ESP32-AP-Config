@@ -120,6 +120,9 @@ void loop() {
 No estás limitado a solo api_url, timeout y threshold. Puedes agregar más variables según sea necesario. Por ejemplo, para agregar una nueva variable llamada device_mode:
 ```cpp
 // Agregar una nueva variable con un valor por defecto
+String device_mode;
+
+
 apConfig.addVariable("device_mode", "automatic");
 ```
 Para recuperarla y utilizarla en el código:
