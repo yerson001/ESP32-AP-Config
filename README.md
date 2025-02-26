@@ -168,6 +168,8 @@ Este sistema facilita la configuración del ESP32 sin necesidad de reprogramaci�
 
 ![Demo video](img/demo.gif)
 
+https://www.linkedin.com/posts/yerson-sanchez_esp32-iot-apconfig-activity-7299976600979144704-pRBG?utm_source=share&utm_medium=member_desktop&rcm=ACoAACbQ38QBPt1FO7X18u4pUovRpQ1Nxit4L2I
+
 ## 📜 Licencia
 
 Este proyecto está bajo la **licencia MIT**. Puedes usarlo y modificarlo libremente. 🎉
